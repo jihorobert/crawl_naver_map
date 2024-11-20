@@ -122,19 +122,27 @@ while(True):
             time.sleep(1)
             title = driver.find_element(By.XPATH, '//div[@class="zD5Nm undefined"]')
         except NoSuchElementException:
-            print("Element not found on this page. Skipping...")
+            print(Colors.RED + "Element not found on this page. Skipping..." + Colors.RESET)
             continue
 
         # 가게 이름
-        store_name = title.find_element(By.XPATH,'.//div[1]/div[1]/span[1]').text
-        # 가게 주소
-        address = driver.find_element(By.XPATH,'//span[@class="LDgIH"]').text
-
         try:
-            # 가게 전화번호
+            store_name = title.find_element(By.XPATH,'.//div[1]/div[1]/span[1]').text
+        except:
+            print(Colors.RED + '------------ 가게 이름 부분 오류 ------------' + Colors.RESET)
+            store_name = 'N/A'
+        # 가게 주소
+        try:
+            address = driver.find_element(By.XPATH,'//span[@class="LDgIH"]').text
+        except:
+            print(Colors.RED + '------------ 가게 주소 부분 오류 ------------' + Colors.RESET)
+            address = 'N/A'
+        # 가게 전화번호
+        try:
             phone_num = driver.find_element(By.XPATH,'//span[@class="xlx7Q"]').text
         except:
-            print(print(Colors.RED + '------------ 전화번호 부분 오류 ------------' + Colors.RESET))
+            print(Colors.RED + '------------ 전화번호 부분 오류 ------------' + Colors.RESET)
+            phone_num = 'N/A'
 
         print(str(index) + ". " + name_element_name)
         print('가게 주소 ' + Colors.GREEN + str(address) + Colors.RESET)
