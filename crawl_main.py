@@ -26,7 +26,8 @@ driver.implicitly_wait(time_to_wait=10)
 # 반복 종료 조건
 loop = True
 
-URL = 'https://map.naver.com/p/search/서울스터디카페'
+keyword = input("검색어 입력: ")
+URL = f'https://map.naver.com/p/search/{keyword}'
 driver.get(url=URL)
 
 class Colors:
@@ -56,7 +57,8 @@ while(True):
 
     # 페이지 숫자를 초기에 체크 [ True / False ]
     # 이건 페이지 넘어갈때마다 계속 확인해줘야 함 (페이지 새로 로드 될때마다 버튼 상태 값이 바뀜)
-    next_page = driver.find_element(By.XPATH,'//*[@id="app-root"]/div/div[2]/div[2]/a[7]').get_attribute('aria-disabled')
+    # next_page = driver.find_element(By.XPATH,'//*[@id="app-root"]/div/div[2]/div[2]/a[7]').get_attribute('aria-disabled')
+    next_page = driver.find_element(By.XPATH, '//*[@class="XUrfU"]//div[2]/a[7]').get_attribute('aria-disabled')
 
     ############## 맨 밑까지 스크롤 ##############
     # 스크롤 할 요소 찾기
@@ -108,9 +110,10 @@ while(True):
         switch_left()
 
         # 순서대로 값을 하나씩 클릭
-        name_element = e.find_element(By.CLASS_NAME,'ouxiq').find_element(By.XPATH, ".//a/div/div/span[1]")
+        name_element = e.find_element(By.CLASS_NAME,'ouxiq').find_element(By.XPATH, ".//a[1]/div[1]/div[1]/span[1]")
         name_element_name = name_element.text
-        name_element.click()
+        # name_element.click()
+        driver.execute_script("arguments[0].click();", name_element)
         sleep(2)
         switch_right()
 
@@ -142,7 +145,7 @@ while(True):
         
     # 페이지 다음 버튼이 활성화 상태일 경우 계속 진행
     if(next_page == 'false'):
-        driver.find_element(By.XPATH,'//*[@id="app-root"]/div/div[2]/div[2]/a[7]').click()
+        driver.find_element(By.XPATH, '//*[@class="XUrfU"]//div[2]/a[7]').click()
     # 아닐 경우 루프 정지
     else:
         loop = False
