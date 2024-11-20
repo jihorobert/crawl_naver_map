@@ -57,9 +57,6 @@ while(True):
     # 페이지 숫자를 초기에 체크 [ True / False ]
     # 이건 페이지 넘어갈때마다 계속 확인해줘야 함 (페이지 새로 로드 될때마다 버튼 상태 값이 바뀜)
     next_page = driver.find_element(By.XPATH,'//*[@id="app-root"]/div/div[2]/div[2]/a[7]').get_attribute('aria-disabled')
-    
-    if(next_page == 'true'):
-        break
 
     ############## 맨 밑까지 스크롤 ##############
     # 스크롤 할 요소 찾기
@@ -68,20 +65,18 @@ while(True):
     last_height = driver.execute_script("return arguments[0].scrollHeight", scrollable_element)
 
     while True:
-        # 요소 내에서 아래로 600px 스크롤
-        driver.execute_script("arguments[0].scrollTop += 600;", scrollable_element)
+        # 현재 스크롤 위치를 계산
+        current_scroll = driver.execute_script("return arguments[0].scrollTop", scrollable_element)
+        max_scroll = driver.execute_script("return arguments[0].scrollHeight", scrollable_element)
 
-        # 페이지 로드를 기다림
-        sleep(2)  # 동적 콘텐츠 로드 시간에 따라 조절
+        # 스크롤을 맨 아래까지 이동
+        driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", scrollable_element)
+        sleep(2)  # 동적 로드를 기다림
 
-        # 새 높이 계산
-        new_height = driver.execute_script("return arguments[0].scrollHeight", scrollable_element)
-
-        # 스크롤이 더 이상 늘어나지 않으면 루프 종료
-        if new_height == last_height:
+        # 스크롤이 더 이상 증가하지 않으면 종료
+        new_scroll = driver.execute_script("return arguments[0].scrollTop", scrollable_element)
+        if new_scroll == current_scroll:
             break
-
-        last_height = new_height
 
 
     ############## 현재 page number 가져오기 - 1 페이지 ##############
@@ -150,9 +145,12 @@ while(True):
 
     switch_left()
         
+    # if(next_page == 'true'):
+    #     break
     # 페이지 다음 버튼이 활성화 상태일 경우 계속 진행
     if(next_page == 'false'):
         driver.find_element(By.XPATH,'//*[@id="app-root"]/div/div[2]/div[2]/a[7]').click()
     # 아닐 경우 루프 정지
     else:
         loop = False
+        break
