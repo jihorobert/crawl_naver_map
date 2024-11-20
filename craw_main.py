@@ -92,11 +92,6 @@ while(True):
 
     print('현재 ' + '\033[95m' + str(page_no) + '\033[0m' + ' 페이지 / '+ '총 ' + '\033[95m' + str(len(elemets)) + '\033[0m' + '개의 가게를 찾았습니다.\n')
 
-    # 가게 이름 출력
-    # for index, e in enumerate(elemets, start=1):
-    #     final_element = e.find_element(By.CLASS_NAME,'ouxiq').find_element(By.XPATH, ".//a/div/div/span[1]")
-    #     print(str(index) + ". " + final_element.text)
-
     print(Colors.RED + "-"*50 + Colors.RESET)
 
     switch_left()
@@ -145,8 +140,6 @@ while(True):
 
     switch_left()
         
-    # if(next_page == 'true'):
-    #     break
     # 페이지 다음 버튼이 활성화 상태일 경우 계속 진행
     if(next_page == 'false'):
         driver.find_element(By.XPATH,'//*[@id="app-root"]/div/div[2]/div[2]/a[7]').click()
