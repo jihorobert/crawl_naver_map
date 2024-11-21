@@ -26,6 +26,10 @@ data = []
 options = webdriver.ChromeOptions()
 options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.111 Safari/537.36')
 options.add_argument('window-size=1380,900')
+
+# 헤드리스 모드 추가 (브라우저 창이 안 보이게)
+# options.add_argument('--headless')
+
 driver = webdriver.Chrome(options=options)
 # 대기 시간
 driver.implicitly_wait(time_to_wait=10)
@@ -64,9 +68,13 @@ while(True):
 
     # 페이지 숫자를 초기에 체크 [ True / False ]
     # 이건 페이지 넘어갈때마다 계속 확인해줘야 함 (페이지 새로 로드 될때마다 버튼 상태 값이 바뀜)
+    # 모든 a 태그 요소를 찾고, 마지막 요소를 선택
+    all_links = driver.find_elements(By.XPATH, '//*[@class="XUrfU"]//div[2]/a')
+    last_link = all_links[-1]
+    next_page = last_link.get_attribute('aria-disabled')
     # next_page = driver.find_element(By.XPATH, '//*[@class="XUrfU"]//div[2]/a[7]').get_attribute('aria-disabled')
-    next_page = driver.find_element(By.XPATH, '//*[@class="XUrfU"]//div[2]/a[last()]').get_attribute('aria-disabled')
-
+    # next_page = driver.find_element(By.XPATH, '//*[@class="XUrfU"]//div[2]/a[last()]').get_attribute('aria-disabled')
+    print('next_page: ', next_page)
 
     ############## 맨 밑까지 스크롤 ##############
     # 스크롤 할 요소 찾기
@@ -139,7 +147,7 @@ while(True):
                 break
             except NoSuchElementException:
                 flag = 1
-                print(Colors.RED + f"Element not found on this page. Retrying...({i+1}/5)" + Colors.RESET)
+                print(Colors.RED + f"Element not found on this page. Retrying...({i+1}/10)" + Colors.RESET)
                 sleep(2)
                 switch_left()
                 name_element = e.find_element(By.CLASS_NAME,'ouxiq').find_element(By.XPATH, ".//a[1]/div[1]/div[1]/span[1]")
@@ -184,7 +192,7 @@ while(True):
 
     # 페이지 다음 버튼이 활성화 상태일 경우 계속 진행
     if(next_page == 'false'):
-        driver.find_element(By.XPATH, '//*[@class="XUrfU"]//div[2]/a[last()]').click()
+        last_link.click()
     # 아닐 경우 루프 정지
     else:
         loop = False
@@ -197,3 +205,4 @@ df = pd.DataFrame(data)
 df.index += 1
 df.to_excel(output_path, engine='openpyxl')
 print(f"엑셀 파일 저장 완료: {output_path}")
+driver.quit()
