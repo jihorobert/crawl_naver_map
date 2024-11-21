@@ -3,9 +3,17 @@
 - 네이버 지도에서 keyword(검색어) 검색 결과 나온 리스트의 '업체명', '연락처', '주소' 크롤링
 - 셀레니움(Selenium) 이용
 
-## pyinstaller 로 .exe(맥은 unix실행파일) 만들기
+## 실행 과정
+
+### pyinstaller 로 .exe(맥은 unix실행파일) 만들기
 
 - pyinstaller --onefile crawl_main.py
+- pyinstaller --onefile --hidden-import colorama --hidden-import openpyxl crawl_main_colorana.py
+  - crawl_main_colorana 버전 이용시, colorana / openpyxl 기능 적용안되면 강제 import
+
+### 프로그램 실행
+
+- 터미널에 **'검색어: '** 나오면 원하는 검색어 입력 -> 이후 자동실행 / 엑셀파일 생성
 
 ## 참고사항
 
