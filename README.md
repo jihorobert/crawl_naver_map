@@ -8,8 +8,8 @@
 ### pyinstaller 로 .exe(맥은 unix실행파일) 만들기
 
 - pyinstaller --onefile crawl_main.py
-- pyinstaller --onefile --hidden-import colorama --hidden-import openpyxl crawl_main_colorana.py
-  - crawl_main_colorana 버전 이용시, colorana / openpyxl 기능 적용안되면 강제 import
+- pyinstaller --onefile --hidden-import colorama --hidden-import openpyxl crawl_main_colorama.py
+  - crawl_main_colorama 버전 이용시, colorama / openpyxl 기능 적용안되면 강제 import
 
 ### 프로그램 실행
 
@@ -28,4 +28,4 @@
 4. **_검색어마다 고려해야되는 부분이 조금씩 다르기 때문에, 특정 검색어에서는 오류가 발생할 수 있음_**
    - 특히 '식당' 관련해서 검색시에는 웹구조 형식이 달라서 따로 처리를 해두었기 때문에, '식당' 검색시에는 속도가 더 느림
 5. **_일부 환경에서 Colors 적용안되는 경우 있음_**
-   - crawl_main_colorana.py 이용
+   - crawl_main_colorama.py 이용
