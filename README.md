@@ -3,7 +3,7 @@
 - 네이버 지도에서 keyword(검색어) 검색 결과 나온 리스트의 '업체명', '연락처', '주소' 크롤링
 - 셀레니움(Selenium) 이용
 
-## pyinstaller 로 exe 만들기
+## pyinstaller 로 .exe(맥은 unix실행파일) 만들기
 
 - pyinstaller --onefile crawl_main.py
 
